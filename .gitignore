@@ -1,0 +1,34 @@
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+logs/
+*.log
+*.log.*
+
+
+# Cache y salida de pruebas
+.cache/
+coverage/
+.vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configuración de editores/IDE
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Directorios de despliegue o construcción
+build/
+dist/
+public/
+
+# Swagger autogenerado
+swagger.json
+swagger.yaml
