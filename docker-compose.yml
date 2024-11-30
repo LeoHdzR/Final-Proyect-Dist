@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  rest-api:
+    build:
+      context: ./rest-api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    env_file:
+      - rest-api/.env
+    depends_on:
+      - redis
+      - postgres
+
+  soap-api:
+    build:
+      context: ./soap-api
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    env_file:
+      - soap-api/.env
+    depends_on:
+      - sqlite
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: toor
+      POSTGRES_DB: cars
+    ports:
+      - "5432:5432"
+
+  sqlite:
+    image: nouchka/sqlite3
+    volumes:
+      - ./soap-api/database.sqlite:/database.sqlite
