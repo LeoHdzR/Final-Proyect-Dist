@@ -39,4 +39,6 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.listen(PORT, () => {
   console.log(`REST API running on http://localhost:${PORT}`);
   console.log(`Swagger docs available at http://localhost:${PORT}/swagger`);
+  console.log('Database Host:', process.env.DB_HOST);
+
 });

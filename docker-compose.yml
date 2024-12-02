@@ -1,6 +1,15 @@
-version: '3.8'
-
 services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: toor
+      POSTGRES_DB: cars
+    ports:
+      - "5432:5432"
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+
   rest-api:
     build:
       context: ./rest-api
@@ -21,24 +30,16 @@ services:
       - "5001:5001"
     env_file:
       - soap-api/.env
-    depends_on:
-      - sqlite
+    volumes:
+      - ./soap-api/database:/usr/src/app/database
+    restart: unless-stopped
 
   redis:
     image: redis:alpine
     ports:
       - "6379:6379"
 
-  postgres:
-    image: postgres:alpine
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: toor
-      POSTGRES_DB: cars
-    ports:
-      - "5432:5432"
+volumes: 
+  postgres_data:
 
-  sqlite:
-    image: nouchka/sqlite3
-    volumes:
-      - ./soap-api/database.sqlite:/database.sqlite
+

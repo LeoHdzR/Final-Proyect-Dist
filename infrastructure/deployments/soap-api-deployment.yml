@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soap-api
+  namespace: lhr-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soap-api
+  template:
+    metadata:
+      labels:
+        app: soap-api
+    spec:
+      containers:
+      - name: soap-api
+        image: soap-api:latest
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_HOST
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_NAME
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_PORT
+        - name: SOAP_URL
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: SOAP_URL
+        ports:
+        - containerPort: 5001

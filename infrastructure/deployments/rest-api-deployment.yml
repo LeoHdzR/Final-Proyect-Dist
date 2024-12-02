@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-api
+  namespace: lhr-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-api
+  template:
+    metadata:
+      labels:
+        app: rest-api
+    spec:
+      containers:
+      - name: rest-api
+        image: rest-api:latest
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_HOST
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_NAME
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: DB_PORT
+        - name: SOAP_URL
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: SOAP_URL
+        - name: REDIS_URL
+          value: "redis://10.98.134.47:6379"  # Usa la IP del servicio Redis
+        ports:
+        - containerPort: 4000

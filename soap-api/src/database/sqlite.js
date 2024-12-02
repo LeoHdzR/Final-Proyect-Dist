@@ -1,11 +1,15 @@
 import sqlite3 from "sqlite3";
 import { DB_FILE } from "../config/config.js";
+import path from "path";
 
-const db = new sqlite3.Database(DB_FILE, (err) => {
+// Asegurar ruta absoluta para DB_FILE
+const dbPath = path.resolve(DB_FILE);
+
+const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error("Error opening SQLite database:", err);
   } else {
-    console.log("Connected to SQLite database.");
+    console.log(`Connected to SQLite database at ${dbPath}`);
   }
 });
 
